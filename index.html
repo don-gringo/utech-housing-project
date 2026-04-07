@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UTech Housing Hub</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Lucide icons via CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       LANDING PAGE — Role Selection
+  ═══════════════════════════════════════════════ -->
+  <section id="page-landing" class="page active">
+    <div class="landing-bg">
+      <div class="landing-orb orb-1"></div>
+      <div class="landing-orb orb-2"></div>
+      <div class="landing-grid"></div>
+    </div>
+    <div class="landing-inner">
+      <div class="brand-lockup">
+        <div class="brand-icon">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="10" fill="#C9A84C"/>
+            <path d="M18 6L30 13V23L18 30L6 23V13L18 6Z" fill="#0A1628" stroke="#C9A84C" stroke-width="1"/>
+            <path d="M18 11L25 15V21L18 25L11 21V15L18 11Z" fill="#C9A84C" opacity="0.4"/>
+            <circle cx="18" cy="18" r="3" fill="#C9A84C"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">UTech Housing Hub</span>
+          <span class="brand-sub">University of Technology, Jamaica</span>
+        </div>
+      </div>
+
+      <div class="landing-hero">
+        <h1 class="landing-headline">Find your <em>perfect</em><br/>student home.</h1>
+        <p class="landing-desc">A verified housing marketplace connecting UTech students with trusted landlords near campus.</p>
+      </div>
+
+      <div class="role-cards">
+        <button class="role-card" onclick="showLogin('student')">
+          <div class="role-icon">
+            <i data-lucide="graduation-cap"></i>
+          </div>
+          <div class="role-info">
+            <span class="role-title">Student</span>
+            <span class="role-desc">Browse & find housing</span>
+          </div>
+          <i data-lucide="arrow-right" class="role-arrow"></i>
+        </button>
+
+        <button class="role-card" onclick="showLogin('staff')">
+          <div class="role-icon">
+            <i data-lucide="shield-check"></i>
+          </div>
+          <div class="role-info">
+            <span class="role-title">Staff / Admin</span>
+            <span class="role-desc">Manage platform &amp; listings</span>
+          </div>
+          <i data-lucide="arrow-right" class="role-arrow"></i>
+        </button>
+
+        <button class="role-card" onclick="showLogin('landlord')">
+          <div class="role-icon">
+            <i data-lucide="building-2"></i>
+          </div>
+          <div class="role-info">
+            <span class="role-title">Landlord</span>
+            <span class="role-desc">List &amp; manage properties</span>
+          </div>
+          <i data-lucide="arrow-right" class="role-arrow"></i>
+        </button>
+      </div>
+
+      <div class="landing-stats">
+        <div class="stat"><span class="stat-num">124+</span><span class="stat-label">Active Listings</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">38</span><span class="stat-label">Verified Landlords</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">900+</span><span class="stat-label">Students Housed</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       LOGIN PAGE (shared, dynamic)
+  ═══════════════════════════════════════════════ -->
+  <section id="page-login" class="page">
+    <div class="login-split">
+      <div class="login-visual">
+        <div class="login-visual-inner">
+          <div class="login-visual-icon" id="login-visual-icon"></div>
+          <h2 class="login-visual-title" id="login-visual-title"></h2>
+          <p class="login-visual-desc" id="login-visual-desc"></p>
+          <div class="login-visual-dots">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+      <div class="login-form-side">
+        <button class="back-btn" onclick="showPage('page-landing')">
+          <i data-lucide="arrow-left"></i> Back
+        </button>
+        <div class="login-form-wrap">
+          <div class="brand-lockup small">
+            <div class="brand-icon small">
+              <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+                <rect width="36" height="36" rx="10" fill="#C9A84C"/>
+                <path d="M18 6L30 13V23L18 30L6 23V13L18 6Z" fill="#0A1628" stroke="#C9A84C" stroke-width="1"/>
+                <circle cx="18" cy="18" r="3" fill="#C9A84C"/>
+              </svg>
+            </div>
+            <span class="brand-name small">UTech Housing Hub</span>
+          </div>
+          <h2 class="form-title" id="login-form-title">Sign in</h2>
+          <p class="form-subtitle" id="login-form-subtitle">Enter your credentials below</p>
+
+          <div id="login-error" class="login-error hidden">
+            <i data-lucide="alert-circle"></i>
+            <span id="login-error-msg">Invalid credentials. Please try again.</span>
+          </div>
+
+          <div class="form-group" id="field-utechid">
+            <label class="form-label">UTech ID Number</label>
+            <div class="input-wrap">
+              <i data-lucide="hash" class="input-icon"></i>
+              <input type="text" id="input-utechid" class="form-input" placeholder="e.g. 1900123" />
+            </div>
+          </div>
+
+          <div class="form-group" id="field-email">
+            <label class="form-label">Email Address</label>
+            <div class="input-wrap">
+              <i data-lucide="mail" class="input-icon"></i>
+              <input type="email" id="input-email" class="form-input" placeholder="your@email.com" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="input-wrap">
+              <i data-lucide="lock" class="input-icon"></i>
+              <input type="password" id="input-password" class="form-input" placeholder="••••••••" />
+              <button class="toggle-pw" onclick="togglePassword()" tabindex="-1">
+                <i data-lucide="eye" id="pw-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button class="btn-primary full" id="login-btn" onclick="handleLogin()">
+            <span>Sign In</span>
+            <i data-lucide="log-in"></i>
+          </button>
+
+          <div class="login-hint" id="login-hint"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       STUDENT PORTAL
+  ═══════════════════════════════════════════════ -->
+  <section id="page-student" class="page">
+    <!-- Navbar -->
+    <nav class="navbar" id="student-nav">
+      <div class="nav-brand">
+        <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+          <rect width="36" height="36" rx="10" fill="#C9A84C"/>
+          <path d="M18 6L30 13V23L18 30L6 23V13L18 6Z" fill="#0A1628"/>
+          <circle cx="18" cy="18" r="3" fill="#C9A84C"/>
+        </svg>
+        <span>UTech Housing Hub</span>
+      </div>
+      <div class="nav-links">
+        <button class="nav-link active" onclick="setStudentTab('listings')">
+          <i data-lucide="home"></i> Listings
+        </button>
+        <button class="nav-link" onclick="setStudentTab('bookings')">
+          <i data-lucide="calendar-check"></i> My Bookings
+        </button>
+        <button class="nav-link" onclick="setStudentTab('helpdesk')">
+          <i data-lucide="wrench"></i> Helpdesk
+        </button>
+      </div>
+      <div class="nav-right">
+        <button class="nav-link" onclick="openModal('modal-about')" title="About this project" style="border:1px solid rgba(255,255,255,.2); border-radius:6px; margin-right:4px;">
+          <i data-lucide="info"></i> About
+        </button>
+        <div class="nav-user" id="student-nav-user">
+          <div class="avatar">S</div>
+          <span id="student-name-display">Student</span>
+        </div>
+        <button class="nav-logout" onclick="logout()">
+          <i data-lucide="log-out"></i>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Student Listings Tab -->
+    <div id="tab-listings" class="tab-content active">
+      <div class="portal-header">
+        <div class="portal-header-text">
+          <h2>Housing Listings</h2>
+          <p>Verified properties near UTech campus</p>
+        </div>
+        <div class="listing-count-badge" id="listing-count-badge">Showing all listings</div>
+      </div>
+
+      <!-- Search & Filter Bar -->
+      <div class="filter-bar">
+        <div class="search-wrap">
+          <i data-lucide="search" class="input-icon"></i>
+          <input type="text" id="search-input" class="form-input search-input" placeholder="Search listings…" oninput="applyFilters()" />
+        </div>
+        <div class="filter-chips" id="area-filter-chips">
+          <button class="chip active" data-area="all" onclick="setAreaFilter(this, 'all')">All Areas</button>
+          <button class="chip" data-area="Tavern" onclick="setAreaFilter(this, 'Tavern')">Tavern</button>
+          <button class="chip" data-area="Gordon Town" onclick="setAreaFilter(this, 'Gordon Town')">Gordon Town</button>
+          <button class="chip" data-area="Papine" onclick="setAreaFilter(this, 'Papine')">Papine</button>
+          <button class="chip" data-area="Mona" onclick="setAreaFilter(this, 'Mona')">Mona</button>
+          <button class="chip" data-area="Mountain View" onclick="setAreaFilter(this, 'Mountain View')">Mountain View</button>
+          <button class="chip" data-area="Hope Pastures" onclick="setAreaFilter(this, 'Hope Pastures')">Hope Pastures</button>
+          <button class="chip" data-area="Barbican" onclick="setAreaFilter(this, 'Barbican')">Barbican</button>
+        </div>
+        <div class="filter-toggles">
+          <button class="filter-toggle" id="toggle-furnished" onclick="toggleFurnishedFilter(this)">
+            <i data-lucide="sofa"></i> Furnished Only
+          </button>
+          <div class="price-sort">
+            <i data-lucide="arrow-up-down"></i>
+            <select id="sort-select" class="sort-select" onchange="applyFilters()">
+              <option value="default">Sort: Default</option>
+              <option value="price-asc">Price: Low → High</option>
+              <option value="price-desc">Price: High → Low</option>
+              <option value="rating">Top Rated</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Listings Grid -->
+      <div class="listings-grid" id="listings-grid"></div>
+      <div class="no-results hidden" id="no-results">
+        <i data-lucide="search-x"></i>
+        <p>No listings match your filters.</p>
+        <button class="btn-secondary" onclick="resetFilters()">Clear Filters</button>
+      </div>
+    </div>
+
+    <!-- Student Bookings Tab -->
+    <div id="tab-bookings" class="tab-content">
+      <div class="portal-header">
+        <div class="portal-header-text">
+          <h2>My Bookings</h2>
+          <p>Your scheduled property viewings</p>
+        </div>
+      </div>
+      <div id="bookings-list-wrap">
+        <div class="bookings-empty" id="bookings-empty">
+          <i data-lucide="calendar-x"></i>
+          <p>No viewings booked yet.</p>
+          <button class="btn-secondary" onclick="setStudentTab('listings')">Browse Listings</button>
+        </div>
+        <div class="bookings-grid" id="bookings-grid"></div>
+      </div>
+    </div>
+
+    <!-- Student Helpdesk Tab -->
+    <div id="tab-helpdesk" class="tab-content">
+      <div class="portal-header">
+        <div class="portal-header-text">
+          <h2>Maintenance Helpdesk</h2>
+          <p>Report issues with your current accommodation</p>
+        </div>
+      </div>
+      <div class="helpdesk-wrap">
+        <div class="helpdesk-card" id="helpdesk-form-wrap">
+          <div class="helpdesk-header">
+            <i data-lucide="tool"></i>
+            <h3>Submit a Maintenance Request</h3>
+          </div>
+          <form class="helpdesk-form" onsubmit="submitHelpdesk(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Your Name</label>
+                <div class="input-wrap">
+                  <i data-lucide="user" class="input-icon"></i>
+                  <input type="text" class="form-input" id="hd-name" placeholder="Full name" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">UTech ID</label>
+                <div class="input-wrap">
+                  <i data-lucide="hash" class="input-icon"></i>
+                  <input type="text" class="form-input" id="hd-id" placeholder="e.g. 1900123" required />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Property / Location</label>
+              <div class="input-wrap">
+                <i data-lucide="map-pin" class="input-icon"></i>
+                <input type="text" class="form-input" id="hd-location" placeholder="e.g. 14 Hope Road, Mona" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Issue Description</label>
+              <textarea class="form-input textarea" id="hd-desc" rows="4" placeholder="Describe the issue in detail…" required></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Priority Level</label>
+                <select class="form-input select" id="hd-priority">
+                  <option value="">Select priority (optional)</option>
+                  <option value="low">Low — Minor inconvenience</option>
+                  <option value="medium">Medium — Needs attention soon</option>
+                  <option value="high">High — Urgent / affects safety</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Issue Category</label>
+                <select class="form-input select" id="hd-category">
+                  <option value="">Select category</option>
+                  <option>Plumbing</option>
+                  <option>Electrical</option>
+                  <option>Structural</option>
+                  <option>Pest Control</option>
+                  <option>Appliances</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn-primary full">
+              <span>Submit Request</span>
+              <i data-lucide="send"></i>
+            </button>
+          </form>
+        </div>
+        <div class="helpdesk-confirm hidden" id="helpdesk-confirm">
+          <div class="confirm-icon"><i data-lucide="check-circle-2"></i></div>
+          <h3>Request Submitted!</h3>
+          <p id="confirm-message">Your maintenance request has been received. The helpdesk team will respond within 24–48 hours.</p>
+          <div class="confirm-ticket" id="confirm-ticket"></div>
+          <button class="btn-secondary" onclick="resetHelpdesk()">Submit Another Request</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       LANDLORD CRM DASHBOARD
+  ═══════════════════════════════════════════════ -->
+  <section id="page-landlord" class="page">
+    <nav class="navbar navbar-dark" id="landlord-nav">
+      <div class="nav-brand">
+        <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+          <rect width="36" height="36" rx="10" fill="#C9A84C"/>
+          <path d="M18 6L30 13V23L18 30L6 23V13L18 6Z" fill="#0A1628"/>
+          <circle cx="18" cy="18" r="3" fill="#C9A84C"/>
+        </svg>
+        <span>UTech Housing Hub — <em>Landlord CRM</em></span>
+      </div>
+      <div class="nav-links">
+        <button class="nav-link active" onclick="setLandlordTab('dashboard')"><i data-lucide="layout-dashboard"></i> Dashboard</button>
+        <button class="nav-link" onclick="setLandlordTab('listings')"><i data-lucide="list"></i> My Listings</button>
+        <button class="nav-link" onclick="setLandlordTab('inquiries')"><i data-lucide="message-square"></i> Inquiries</button>
+      </div>
+      <div class="nav-right">
+        <button class="nav-link" onclick="openModal('modal-about')" title="About" style="border:1px solid rgba(255,255,255,.2); border-radius:6px; margin-right:4px;">
+          <i data-lucide="info"></i> About
+        </button>
+        <div class="nav-user">
+          <div class="avatar gold">L</div>
+          <span id="landlord-name-display">Landlord</span>
+        </div>
+        <button class="nav-logout" onclick="logout()"><i data-lucide="log-out"></i></button>
+      </div>
+    </nav>
+
+    <!-- Dashboard Tab -->
+    <div id="ll-tab-dashboard" class="tab-content active">
+      <div class="portal-header">
+        <div class="portal-header-text">
+          <h2 id="landlord-welcome">Welcome back</h2>
+          <p>Here's your property portfolio overview</p>
+        </div>
+        <button class="btn-primary" onclick="openAddListingModal()">
+          <i data-lucide="plus"></i> Add Listing
+        </button>
+      </div>
+
+      <div class="crm-stats" id="crm-stats"></div>
+
+      <div class="crm-recent">
+        <h3 class="section-title">Recent Activity</h3>
+        <div class="activity-list" id="activity-list"></div>
+      </div>
+    </div>
+
+    <!-- Landlord Listings Tab -->
+    <div id="ll-tab-listings" class="tab-content">
+      <div class="portal-header">
+        <div class="portal-header-text">
+          <h2>My Listings</h2>
+          <p>Manage your property listings</p>
+        </div>
+        <button class="btn-primary" onclick="openAddListingModal()">
+          <i data-lucide="plus"></i> Add Listing
+        </button>
+      </div>
+      <div class="crm-listings-table" id="crm-listings-table"></div>
+    </div>
+
+    <!-- Inquiries Tab -->
+    <div id="ll-tab-inquiries" class="tab-content">
+      <div class="portal-header">
+        <div class="portal-header-text">
+          <h2>Student Inquiries</h2>
+          <p>Messages from interested students</p>
+        </div>
+      </div>
+      <div class="inquiries-list" id="inquiries-list"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       STAFF PORTAL
+  ═══════════════════════════════════════════════ -->
+  <section id="page-staff" class="page">
+    <nav class="navbar" id="staff-nav">
+      <div class="nav-brand">
+        <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+          <rect width="36" height="36" rx="10" fill="#C9A84C"/>
+          <path d="M18 6L30 13V23L18 30L6 23V13L18 6Z" fill="#0A1628"/>
+          <circle cx="18" cy="18" r="3" fill="#C9A84C"/>
+        </svg>
+        <span>UTech Housing Hub — <em>Staff Panel</em></span>
+      </div>
+      <div class="nav-right">
+        <button class="nav-link" onclick="openModal('modal-about')" title="About" style="border:1px solid rgba(255,255,255,.2); border-radius:6px; margin-right:4px;">
+          <i data-lucide="info"></i> About
+        </button>
+        <div class="nav-user">
+          <div class="avatar">A</div>
+          <span id="staff-name-display">Staff</span>
+        </div>
+        <button class="nav-logout" onclick="logout()"><i data-lucide="log-out"></i></button>
+      </div>
+    </nav>
+    <div class="portal-header">
+      <div class="portal-header-text">
+        <h2>Staff Administration Panel</h2>
+        <p>Platform overview and verification management</p>
+      </div>
+    </div>
+    <div class="staff-overview" id="staff-overview"></div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       MODALS
+  ═══════════════════════════════════════════════ -->
+
+  <!-- Listing Detail Modal -->
+  <div class="modal-backdrop" id="modal-listing" onclick="closeModalIfBackdrop(event, 'modal-listing')">
+    <div class="modal modal-large">
+      <button class="modal-close" onclick="closeModal('modal-listing')"><i data-lucide="x"></i></button>
+      <div class="modal-content" id="listing-modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Rate Landlord Modal -->
+  <div class="modal-backdrop" id="modal-rate" onclick="closeModalIfBackdrop(event, 'modal-rate')">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('modal-rate')"><i data-lucide="x"></i></button>
+      <div class="modal-header">
+        <h3>Rate Your Landlord</h3>
+        <p id="rate-landlord-name">Rate this landlord</p>
+      </div>
+      <div class="modal-body">
+        <div class="star-rating-wrap">
+          <div class="star-rating" id="star-rating">
+            <span class="star" data-val="1" onclick="setRating(1)">★</span>
+            <span class="star" data-val="2" onclick="setRating(2)">★</span>
+            <span class="star" data-val="3" onclick="setRating(3)">★</span>
+            <span class="star" data-val="4" onclick="setRating(4)">★</span>
+            <span class="star" data-val="5" onclick="setRating(5)">★</span>
+          </div>
+          <p class="rating-label" id="rating-label">Click a star to rate</p>
+        </div>
+        <textarea class="form-input textarea" id="rate-comment" rows="3" placeholder="Leave a comment (optional)…"></textarea>
+        <button class="btn-primary full" onclick="submitRating()">Submit Rating</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Listing Modal -->
+  <div class="modal-backdrop" id="modal-add-listing" onclick="closeModalIfBackdrop(event, 'modal-add-listing')">
+    <div class="modal modal-large">
+      <button class="modal-close" onclick="closeModal('modal-add-listing')"><i data-lucide="x"></i></button>
+      <div class="modal-header">
+        <h3 id="add-listing-title">Add New Listing</h3>
+        <p>Fill in the details for your property</p>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Property Title</label>
+            <div class="input-wrap">
+              <i data-lucide="home" class="input-icon"></i>
+              <input type="text" class="form-input" id="al-title" placeholder="e.g. 2BR Modern Apartment" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Monthly Rent (JMD)</label>
+            <div class="input-wrap">
+              <i data-lucide="dollar-sign" class="input-icon"></i>
+              <input type="number" class="form-input" id="al-price" placeholder="e.g. 45000" />
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Area</label>
+            <select class="form-input select" id="al-area">
+              <option value="">Select area</option>
+              <option>Tavern</option><option>Gordon Town</option><option>Papine</option>
+              <option>Mona</option><option>Mountain View</option><option>Hope Pastures</option><option>Barbican</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Furnished Status</label>
+            <select class="form-input select" id="al-furnished">
+              <option value="Furnished">Furnished</option>
+              <option value="Unfurnished">Unfurnished</option>
+              <option value="Semi-Furnished">Semi-Furnished</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Full Address</label>
+          <div class="input-wrap">
+            <i data-lucide="map-pin" class="input-icon"></i>
+            <input type="text" class="form-input" id="al-address" placeholder="Street address" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-input textarea" id="al-desc" rows="3" placeholder="Describe the property…"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Bedrooms</label>
+            <input type="number" class="form-input" id="al-beds" placeholder="e.g. 2" min="1" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Bathrooms</label>
+            <input type="number" class="form-input" id="al-baths" placeholder="e.g. 1" min="1" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Amenities (comma-separated)</label>
+          <input type="text" class="form-input" id="al-amenities" placeholder="WiFi, Water, Electricity, Parking…" />
+        </div>
+        <button class="btn-primary full" onclick="saveListing()">
+          <span id="save-listing-btn-text">Add Listing</span>
+          <i data-lucide="save"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirm Modal -->
+  <div class="modal-backdrop" id="modal-delete" onclick="closeModalIfBackdrop(event, 'modal-delete')">
+    <div class="modal modal-small">
+      <div class="modal-header danger">
+        <i data-lucide="trash-2"></i>
+        <h3>Delete Listing?</h3>
+        <p>This action cannot be undone.</p>
+      </div>
+      <div class="modal-body center">
+        <button class="btn-danger" onclick="confirmDelete()">Yes, Delete</button>
+        <button class="btn-secondary" onclick="closeModal('modal-delete')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       SCHEDULE VIEWING MODAL
+  ═══════════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="modal-booking" onclick="closeModalIfBackdrop(event, 'modal-booking')">
+    <div class="modal modal-large">
+      <button class="modal-close" onclick="closeModal('modal-booking')"><i data-lucide="x"></i></button>
+      <div class="modal-header">
+        <h3>Schedule a Viewing</h3>
+        <p id="booking-property-name">Book a property visit</p>
+      </div>
+      <div class="modal-body">
+        <div class="booking-banner">
+          <i data-lucide="calendar-check"></i>
+          <div>
+            <strong>Choose your preferred date &amp; time</strong>
+            <span>The landlord will confirm within 24 hours via email.</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <div class="input-wrap">
+              <i data-lucide="user" class="input-icon"></i>
+              <input type="text" class="form-input" id="bk-name" placeholder="Full name" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">UTech ID</label>
+            <div class="input-wrap">
+              <i data-lucide="hash" class="input-icon"></i>
+              <input type="text" class="form-input" id="bk-id" placeholder="e.g. 1900123" />
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Preferred Date</label>
+            <div class="input-wrap">
+              <i data-lucide="calendar" class="input-icon"></i>
+              <input type="date" class="form-input" id="bk-date" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Preferred Time</label>
+            <div class="input-wrap">
+              <i data-lucide="clock" class="input-icon"></i>
+              <select class="form-input select" id="bk-time">
+                <option value="">Select time slot</option>
+                <option>9:00 AM – 10:00 AM</option>
+                <option>10:00 AM – 11:00 AM</option>
+                <option>11:00 AM – 12:00 PM</option>
+                <option>1:00 PM – 2:00 PM</option>
+                <option>2:00 PM – 3:00 PM</option>
+                <option>3:00 PM – 4:00 PM</option>
+                <option>4:00 PM – 5:00 PM</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contact Phone / WhatsApp</label>
+          <div class="input-wrap">
+            <i data-lucide="phone" class="input-icon"></i>
+            <input type="tel" class="form-input" id="bk-phone" placeholder="e.g. 876-555-0123" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Additional Notes <span class="text-grey">(optional)</span></label>
+          <textarea class="form-input textarea" id="bk-notes" rows="3" placeholder="Any specific questions or requirements before the visit…"></textarea>
+        </div>
+        <!-- Confirmation panel (hidden until submitted) -->
+        <div class="booking-confirm hidden" id="booking-confirm">
+          <div class="confirm-icon"><i data-lucide="check-circle-2"></i></div>
+          <h4>Viewing Scheduled!</h4>
+          <p id="booking-confirm-msg"></p>
+          <div class="confirm-ticket" id="booking-ref"></div>
+        </div>
+        <div id="booking-form-actions">
+          <button class="btn-primary full" onclick="submitBooking()">
+            <i data-lucide="calendar-check"></i>
+            <span>Confirm Booking</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       DIRECT MESSAGE MODAL
+  ═══════════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="modal-dm" onclick="closeModalIfBackdrop(event, 'modal-dm')">
+    <div class="modal modal-large">
+      <button class="modal-close" onclick="closeModal('modal-dm')"><i data-lucide="x"></i></button>
+      <div class="modal-header">
+        <h3>Message Landlord</h3>
+        <p id="dm-landlord-name">Send a direct message</p>
+      </div>
+      <div class="modal-body">
+        <!-- Thread display -->
+        <div class="dm-thread" id="dm-thread">
+          <div class="dm-thread-empty" id="dm-thread-empty">
+            <i data-lucide="message-circle"></i>
+            <p>No messages yet. Start the conversation below.</p>
+          </div>
+        </div>
+        <!-- Compose area -->
+        <div class="dm-compose" id="dm-compose-area">
+          <div class="dm-quick-prompts" id="dm-quick-prompts">
+            <span class="dm-prompt-label">Quick prompts:</span>
+            <button class="quick-prompt-btn" onclick="useQuickPrompt(this)">Is this still available?</button>
+            <button class="quick-prompt-btn" onclick="useQuickPrompt(this)">What utilities are included?</button>
+            <button class="quick-prompt-btn" onclick="useQuickPrompt(this)">Can I schedule a viewing?</button>
+            <button class="quick-prompt-btn" onclick="useQuickPrompt(this)">What is the security deposit?</button>
+          </div>
+          <div class="dm-input-row">
+            <textarea class="form-input textarea dm-textarea" id="dm-message" rows="3" placeholder="Type your message to the landlord…"></textarea>
+            <button class="btn-primary dm-send-btn" onclick="sendDM()">
+              <i data-lucide="send"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       ABOUT / PROJECT INFO MODAL
+  ═══════════════════════════════════════════════ -->
+  <div class="modal-backdrop" id="modal-about" onclick="closeModalIfBackdrop(event, 'modal-about')">
+    <div class="modal modal-large">
+      <button class="modal-close" onclick="closeModal('modal-about')"><i data-lucide="x"></i></button>
+      <div class="about-modal-inner">
+        <div class="about-hero">
+          <div class="about-logo">
+            <svg width="52" height="52" viewBox="0 0 36 36" fill="none">
+              <rect width="36" height="36" rx="10" fill="#C9A84C"/>
+              <path d="M18 6L30 13V23L18 30L6 23V13L18 6Z" fill="#0A1628" stroke="#C9A84C" stroke-width="1"/>
+              <path d="M18 11L25 15V21L18 25L11 21V15L18 11Z" fill="#C9A84C" opacity="0.4"/>
+              <circle cx="18" cy="18" r="3" fill="#C9A84C"/>
+            </svg>
+          </div>
+          <h2 class="about-title">UTech Housing Hub</h2>
+          <p class="about-subtitle">A verified student housing marketplace for the University of Technology, Jamaica</p>
+        </div>
+        <div class="about-body">
+          <div class="about-info-grid">
+            <div class="about-info-card">
+              <div class="about-info-label"><i data-lucide="book-open"></i> Assignment</div>
+              <div class="about-info-value">FIS Group Project</div>
+            </div>
+            <div class="about-info-card">
+              <div class="about-info-label"><i data-lucide="graduation-cap"></i> Class</div>
+              <div class="about-info-value">Foundation of Information Systems<br/><span class="about-code">CIT3021</span></div>
+            </div>
+            <div class="about-info-card">
+              <div class="about-info-label"><i data-lucide="user-check"></i> Tutor</div>
+              <div class="about-info-value">Stanford Graham</div>
+            </div>
+            <div class="about-info-card">
+              <div class="about-info-label"><i data-lucide="layers"></i> Occurrence</div>
+              <div class="about-info-value">UM1</div>
+            </div>
+          </div>
+
+          <div class="about-team-section">
+            <h4 class="about-team-title"><i data-lucide="users"></i> Group Members</h4>
+            <div class="about-team-list">
+              <div class="about-member">
+                <div class="member-avatar">BH</div>
+                <div class="member-info">
+                  <span class="member-name">Brandon Hibbert</span>
+                  <span class="member-id">ID: 2304765</span>
+                </div>
+              </div>
+              <div class="about-member">
+                <div class="member-avatar">DR</div>
+                <div class="member-info">
+                  <span class="member-name">Daniel Rose</span>
+                  <span class="member-id">ID: 2305896</span>
+                </div>
+              </div>
+              <div class="about-member">
+                <div class="member-avatar">NK</div>
+                <div class="member-info">
+                  <span class="member-name">Nioka Knight</span>
+                  <span class="member-id">ID: 1804368</span>
+                </div>
+              </div>
+              <div class="about-member">
+                <div class="member-avatar">KW</div>
+                <div class="member-info">
+                  <span class="member-name">Keyshawn Williams</span>
+                  <span class="member-id">ID: 2106838</span>
+                </div>
+              </div>
+              <div class="about-member">
+                <div class="member-avatar">RE</div>
+                <div class="member-info">
+                  <span class="member-name">Roniel Emanuel</span>
+                  <span class="member-id">ID: 1703295</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="about-footer-note">
+            <i data-lucide="info"></i>
+            This is a UI prototype for academic purposes. All data is simulated and no real transactions occur.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       AI HELP ASSISTANT WIDGET
+  ═══════════════════════════════════════════════ -->
+
+  <!-- Floating trigger button -->
+  <button class="ai-fab" id="ai-fab" onclick="toggleAIChat()" title="AI Housing Assistant">
+    <div class="ai-fab-icon" id="ai-fab-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" fill="currentColor"/>
+      </svg>
+    </div>
+    <span class="ai-fab-label">AI Help</span>
+    <div class="ai-fab-pulse"></div>
+  </button>
+
+  <!-- Chat panel -->
+  <div class="ai-chat-panel" id="ai-chat-panel">
+    <div class="ai-chat-header">
+      <div class="ai-chat-header-info">
+        <div class="ai-chat-avatar">
+          <svg width="18" height="18" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="8" fill="#C9A84C"/>
+            <path d="M18 6L30 13V23L18 30L6 23V13L18 6Z" fill="#0A1628"/>
+            <circle cx="18" cy="18" r="3" fill="#C9A84C"/>
+          </svg>
+        </div>
+        <div>
+          <span class="ai-chat-name">Housing Assistant</span>
+          <span class="ai-chat-status"><span class="ai-online-dot"></span> Online</span>
+        </div>
+      </div>
+      <div class="ai-chat-header-actions">
+        <a href="https://gemini.google.com/share/060d25e28241" target="_blank" class="ai-gemini-btn" title="Open assignment AI model">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Gemini Model
+        </a>
+        <button class="ai-chat-close" onclick="toggleAIChat()"><i data-lucide="x"></i></button>
+      </div>
+    </div>
+    <div class="ai-chat-messages" id="ai-chat-messages">
+      <!-- Initial greeting injected by JS -->
+    </div>
+    <div class="ai-chat-suggestions" id="ai-chat-suggestions">
+      <button class="ai-suggestion" onclick="sendSuggestion(this)">How do I find housing?</button>
+      <button class="ai-suggestion" onclick="sendSuggestion(this)">What areas are near UTech?</button>
+      <button class="ai-suggestion" onclick="sendSuggestion(this)">How do I report maintenance?</button>
+      <button class="ai-suggestion" onclick="sendSuggestion(this)">How to rate a landlord?</button>
+    </div>
+    <div class="ai-chat-compose">
+      <textarea class="ai-chat-input" id="ai-chat-input" placeholder="Ask anything about housing…" rows="1" onkeydown="handleChatKey(event)"></textarea>
+      <button class="ai-chat-send" id="ai-chat-send" onclick="sendAIMessage()">
+        <i data-lucide="send"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <i data-lucide="check-circle" id="toast-icon"></i>
+    <span id="toast-msg">Success!</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
