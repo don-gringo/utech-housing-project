@@ -1360,7 +1360,7 @@ async function sendAIMessage() {
 
   } catch (err) {
     hideAITyping();
-    addAIMessage('bot', '⚠️ I couldn\'t connect right now. You can also try the [Gemini AI model](https://gemini.google.com/share/060d25e28241) for help.');
+    addAIMessage('bot', '⚠️ I couldn\'t connect right now. You can also try the [Gemini AI model](https://gemini.google.com/app/bec82ee167c460a2) for help.');
   }
 
   document.getElementById('ai-chat-send').disabled = false;
